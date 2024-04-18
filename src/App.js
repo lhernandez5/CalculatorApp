@@ -11,8 +11,9 @@ export const ACTIONS = {
   EVALUATE: "evaluate",
 };
 
-function reducer(state, { type, payload }) {
-  switch (type) {
+function reducer(state, { calculationType, payload }) {
+  console.log(calculationType)
+  switch (calculationType) {
     case ACTIONS.ADD_DIGIT:
       if (state.overwrite) {
         return {
@@ -32,18 +33,18 @@ function reducer(state, { type, payload }) {
         currentOperand: `${state.currentOperand || ""}${payload.digit}`,
       };
     case ACTIONS.CHOOSE_OPERATION:
-      if (state.currentOperand === null && state.previousOperand === null) {
+      if (state.currentOperand == null && state.previousOperand == null) {
         return state;
       }
 
-      if (state.currentOperand === null) {
+      if (state.currentOperand == null) {
         return {
           ...state,
           operation: payload.operation,
         };
       }
 
-      if (state.previousOperand === null) {
+      if (state.previousOperand == null) {
         return {
           ...state,
           operation: payload.operation,
@@ -67,7 +68,7 @@ function reducer(state, { type, payload }) {
           currentOperand: null,
         };
       }
-      if (state.currentOperand === null) {
+      if (state.currentOperand == null) {
         return state;
       }
       if (state.currentOperand.length === 1) {
@@ -83,9 +84,9 @@ function reducer(state, { type, payload }) {
       };
     case ACTIONS.EVALUATE:
       if (
-        state.operation === null ||
-        state.currentOperand === null ||
-        state.previousOperand === null
+        state.operation == null ||
+        state.currentOperand == null ||
+        state.previousOperand == null
       ) {
         return state;
       }
@@ -130,43 +131,46 @@ function App() {
     {}
   );
   return (
-    <div className="calculator-grid">
-      <div className="output">
-        <div className="previous-operand">
-          {previousOperand} {operation}
+    <div>
+      <h1 className="heading">Calculator</h1>
+      <div className="calculator-grid">
+        <div className="output">
+          <div className="previous-operand">
+            {previousOperand} {operation}
+          </div>
+          <div className="current-operand">{currentOperand}</div>
         </div>
-        <div className="current-operand">{currentOperand}</div>
+        <button
+          className="span-two"
+          onClick={() => dispatch({ calculationType: ACTIONS.CLEAR })}
+        >
+          AC
+        </button>
+        <button onClick={() => dispatch({ calculationType: ACTIONS.DELETE_DIGIT })}>
+          DEL
+        </button>
+        <OperationButton operation="÷" dispatch={dispatch} />
+        <DigitButton digit="1" dispatch={dispatch} />
+        <DigitButton digit="2" dispatch={dispatch} />
+        <DigitButton digit="3" dispatch={dispatch} />
+        <OperationButton operation="*" dispatch={dispatch} />
+        <DigitButton digit="4" dispatch={dispatch} />
+        <DigitButton digit="5" dispatch={dispatch} />
+        <DigitButton digit="6" dispatch={dispatch} />
+        <OperationButton operation="+" dispatch={dispatch} />
+        <DigitButton digit="7" dispatch={dispatch} />
+        <DigitButton digit="8" dispatch={dispatch} />
+        <DigitButton digit="9" dispatch={dispatch} />
+        <OperationButton operation="-" dispatch={dispatch} />
+        <DigitButton digit="." dispatch={dispatch} />
+        <DigitButton digit="0" dispatch={dispatch} />
+        <button
+          className="span-two"
+          onClick={() => dispatch({ calculationType: ACTIONS.EVALUATE })}
+        >
+          =
+        </button>
       </div>
-      <button
-        className="span-two"
-        onClick={() => dispatch({ type: ACTIONS.CLEAR })}
-      >
-        AC
-      </button>
-      <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>
-        DEL
-      </button>
-      <OperationButton operation="÷" dispatch={dispatch} />
-      <DigitButton digit="1" dispatch={dispatch} />
-      <DigitButton digit="2" dispatch={dispatch} />
-      <DigitButton digit="3" dispatch={dispatch} />
-      <OperationButton operation="*" dispatch={dispatch} />
-      <DigitButton digit="4" dispatch={dispatch} />
-      <DigitButton digit="5" dispatch={dispatch} />
-      <DigitButton digit="6" dispatch={dispatch} />
-      <OperationButton operation="+" dispatch={dispatch} />
-      <DigitButton digit="7" dispatch={dispatch} />
-      <DigitButton digit="8" dispatch={dispatch} />
-      <DigitButton digit="9" dispatch={dispatch} />
-      <OperationButton operation="-" dispatch={dispatch} />
-      <DigitButton digit="." dispatch={dispatch} />
-      <DigitButton digit="0" dispatch={dispatch} />
-      <button
-        className="span-two"
-        onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
-      >
-        =
-      </button>
     </div>
   );
 }
