@@ -133,7 +133,7 @@ function App() {
   return (
     <div>
       <h1 className="heading">Calculator</h1>
-      <div className="calculatorContainer">
+      {/* <div className="calculatorContainer"> */}
         <div className="calculator-grid">
           <div className="output">
             <div className="previous-operand">
@@ -174,7 +174,7 @@ function App() {
             =
           </button>
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 }
