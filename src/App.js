@@ -12,7 +12,6 @@ export const ACTIONS = {
 };
 
 function reducer(state, { calculationType, payload }) {
-  console.log(calculationType);
   switch (calculationType) {
     case ACTIONS.ADD_DIGIT:
       if (state.overwrite) {
