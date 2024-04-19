@@ -1,19 +1,12 @@
 import { useReducer } from "react";
 import "./styles.css";
-import DigitButton from "./DigitButton";
+import NumberButton from "./NumberButton";
 import OperationButton from "./OperationButton";
-
-export const ACTIONS = {
-  ADD_DIGIT: "add-digit",
-  CHOOSE_OPERATION: "choose-operation",
-  CLEAR: "clear",
-  DELETE_DIGIT: "delete-digit",
-  EVALUATE: "evaluate",
-};
+import { ADD_DIGIT, CHOOSE_OPERATION, CLEAR, DELETE_DIGIT, EVALUATE } from "./Actions";
 
 function reducer(state, { calculationType, payload }) {
   switch (calculationType) {
-    case ACTIONS.ADD_DIGIT:
+    case ADD_DIGIT:
       if (state.overwrite) {
         return {
           ...state,
@@ -31,7 +24,7 @@ function reducer(state, { calculationType, payload }) {
         ...state,
         currentOperand: `${state.currentOperand || ""}${payload.digit}`,
       };
-    case ACTIONS.CHOOSE_OPERATION:
+    case CHOOSE_OPERATION:
       if (state.currentOperand == null && state.previousOperand == null) {
         return state;
       }
@@ -57,9 +50,9 @@ function reducer(state, { calculationType, payload }) {
         operation: payload.operation,
         currentOperand: null,
       };
-    case ACTIONS.CLEAR:
+    case CLEAR:
       return {};
-    case ACTIONS.DELETE_DIGIT:
+    case DELETE_DIGIT:
       if (state.overwrite) {
         return {
           ...state,
@@ -81,7 +74,7 @@ function reducer(state, { calculationType, payload }) {
         ...state,
         currentOperand: state.currentOperand.slice(0, -1),
       };
-    case ACTIONS.EVALUATE:
+    case EVALUATE:
       if (
         state.operation == null ||
         state.currentOperand == null ||
@@ -132,7 +125,6 @@ function App() {
   return (
     <div>
       <h1 className="heading">Calculator</h1>
-      {/* <div className="calculatorContainer"> */}
         <div className="calculator-grid">
           <div className="output">
             <div className="previous-operand">
@@ -142,38 +134,37 @@ function App() {
           </div>
           <button
             className="span-two"
-            onClick={() => dispatch({ calculationType: ACTIONS.CLEAR })}
+            onClick={() => dispatch({ calculationType: CLEAR })}
           >
             AC
           </button>
           <button
-            onClick={() => dispatch({ calculationType: ACTIONS.DELETE_DIGIT })}
+            onClick={() => dispatch({ calculationType: DELETE_DIGIT })}
           >
             DEL
           </button>
           <OperationButton operation="÷" dispatch={dispatch} />
-          <DigitButton digit="1" dispatch={dispatch} />
-          <DigitButton digit="2" dispatch={dispatch} />
-          <DigitButton digit="3" dispatch={dispatch} />
+          <NumberButton digit="1" dispatch={dispatch} />
+          <NumberButton digit="2" dispatch={dispatch} />
+          <NumberButton digit="3" dispatch={dispatch} />
           <OperationButton operation="*" dispatch={dispatch} />
-          <DigitButton digit="4" dispatch={dispatch} />
-          <DigitButton digit="5" dispatch={dispatch} />
-          <DigitButton digit="6" dispatch={dispatch} />
+          <NumberButton digit="4" dispatch={dispatch} />
+          <NumberButton digit="5" dispatch={dispatch} />
+          <NumberButton digit="6" dispatch={dispatch} />
           <OperationButton operation="+" dispatch={dispatch} />
-          <DigitButton digit="7" dispatch={dispatch} />
-          <DigitButton digit="8" dispatch={dispatch} />
-          <DigitButton digit="9" dispatch={dispatch} />
+          <NumberButton digit="7" dispatch={dispatch} />
+          <NumberButton digit="8" dispatch={dispatch} />
+          <NumberButton digit="9" dispatch={dispatch} />
           <OperationButton operation="-" dispatch={dispatch} />
-          <DigitButton digit="." dispatch={dispatch} />
-          <DigitButton digit="0" dispatch={dispatch} />
+          <NumberButton digit="." dispatch={dispatch} />
+          <NumberButton digit="0" dispatch={dispatch} />
           <button
             className="span-two"
-            onClick={() => dispatch({ calculationType: ACTIONS.EVALUATE })}
+            onClick={() => dispatch({ calculationType: EVALUATE })}
           >
             =
           </button>
         </div>
-      {/* </div> */}
     </div>
   );
 }
